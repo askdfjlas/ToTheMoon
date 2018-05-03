@@ -3,4 +3,6 @@
 
 void getInputs();
 
+enum facing{LEFT, RIGHT};
+
 #endif

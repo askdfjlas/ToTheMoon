@@ -10,5 +10,7 @@
 void draw(); 
 void drawLand();
 void drawBlockLand(int x, int y, int w, int h); 
+void drawPlayer();
+void drawGround();
 
 #endif

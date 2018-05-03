@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Draw.h" 
 #include "Input.h"
+#include "Collision.h"
 
 // Main file
 
@@ -12,10 +13,7 @@
 #define TEXTSPEED 40
 
 Arduboy2 arduboy;
-
-#define ARDBITMAP_SBUF arduboy.getBuffer()
-#include <ArdBitmap.h>
-ArdBitmap<WIDTH, HEIGHT> ardbitmap;
+Sprites Sprite; 
 
 void setup() {
   arduboy.begin();
@@ -29,6 +27,7 @@ void loop() {
   
   // Game loop
   getInputs();
+  updatePlayer(); 
   draw();
 
   arduboy.display(); 
