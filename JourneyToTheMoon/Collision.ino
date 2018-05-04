@@ -5,9 +5,16 @@ void verticalCollide(Rect object) {
   Rect player = {TRUEX, TRUEY, PWIDTH, PHEIGHT}; 
 
   // Check if we land on a platform
-  if(ahri.yVel < 0 && arduboy.collide(player, object)) { 
+  if(ahri.yVel < 0 && arduboy.collide(player, object)) {
     ahri.yVel = 0; 
+
+    if((TRUEY - object.y + PHEIGHT) > 2) {
+      // Reset aerial!
+      ahri.frameCount /= 2;
+    }
+    
     ahri.y += TRUEY - object.y + PHEIGHT;
+    
     ahri.airborn = 0; 
   }
 
@@ -19,19 +26,11 @@ void verticalCollide(Rect object) {
 }
 
 void horizontalCollide(byte dir) {
-  for(int i = 0; i < R1LEN; i++) {
+  for(int i = leftIndex; i < rightIndex; i++) {
     int* addr = R1Rect + i*4; 
     
     int x = pgm_read_word(addr);
-    int w = pgm_read_word(addr + 2);
-    
-    switch(boundsChecking(x - ahri.x + TRUEX, x - ahri.x + TRUEX + w*TILEWIDTH)) {
-      case 0: 
-        return;
-      case 1:
-        continue;
-    }
-    
+    int w = pgm_read_word(addr + 2); 
     int y = pgm_read_word(addr + 1);
     int h = pgm_read_word(addr + 3); 
     Rect object = {x - ahri.x + TRUEX, -y + ahri.y + TRUEY, w*TILEWIDTH, h*TILEHEIGHT}; 
@@ -53,16 +52,22 @@ void horizontalCollide(byte dir) {
 void groundCollide() {
   if(ahri.y < PHEIGHT) {
     ahri.yVel = 0;
+    if(PHEIGHT - ahri.y > 2) {
+      // Reset aerial!
+      ahri.frameCount /= 2;
+    }
     ahri.y = PHEIGHT;  
     ahri.airborn = 0; 
   }
 }
 
-byte boundsChecking(int a, int b) {
+byte boundsChecking(int a, int b, int i) {
   if(a > 128) {
+    rightIndex = i;
     return 0;
   }
   else if(b < 0) {
+    leftIndex++; 
     return 1;
   }
   else {

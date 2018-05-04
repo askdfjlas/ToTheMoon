@@ -16,6 +16,9 @@
 
 #define SPEED 4
 
+#include "weapon.h"
+#include "input.h"
+
 // File to manage the player state
 
 typedef struct player {
@@ -24,10 +27,14 @@ typedef struct player {
   byte airborn;
   int lvl; 
   int experience; 
+  byte facing;
+  byte frameCount;
+
+  Weapon myWeapon; 
 }Player;
 
 // No one loves me lol
  
-Player ahri = {0, PHEIGHT, 0, 1, 1, 0}; 
+Player ahri = {0, PHEIGHT, 0, 1, 1, 0, RIGHT, 0, stick}; 
 
 #endif

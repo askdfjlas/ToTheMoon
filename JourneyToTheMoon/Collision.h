@@ -4,6 +4,6 @@
 void verticalCollide(Rect object);
 void horizontalCollide(byte dir); 
 void groundCollide();
-byte boundsChecking(int a, int b);
+byte boundsChecking(int a, int b, int i);
 
 #endif

@@ -9,12 +9,15 @@ void updatePlayer() {
   ahri.y += ahri.yVel;
 
   groundCollide(); 
+  leftIndex = 0; 
+  rightIndex = R1LEN;
+  
   for(int i = 0; i < R1LEN; i++) {
     int* addr = R1Rect + i*4; 
     int x = pgm_read_word(addr);
     int w = pgm_read_word(addr + 2);
 
-    switch(boundsChecking(x - ahri.x + TRUEX, x - ahri.x + TRUEX + w*TILEWIDTH)) {
+    switch(boundsChecking(x - ahri.x + TRUEX, x - ahri.x + TRUEX + w*TILEWIDTH, i)) {
       case 0: 
         return;
       case 1:

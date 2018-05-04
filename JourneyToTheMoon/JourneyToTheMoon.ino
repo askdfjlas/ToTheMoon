@@ -6,6 +6,7 @@
 #include "Draw.h" 
 #include "Input.h"
 #include "Collision.h"
+#include "weapon.h"
 
 // Main file
 
@@ -14,6 +15,11 @@
 
 Arduboy2 arduboy;
 Sprites Sprite; 
+
+// make an ArdBitmap instance that will use the given the screen buffer and dimensions
+#define ARDBITMAP_SBUF arduboy.getBuffer()
+#include <ArdBitmap.h>
+ArdBitmap<WIDTH, HEIGHT> ardbitmap;
 
 void setup() {
   arduboy.begin();
@@ -29,6 +35,7 @@ void loop() {
   getInputs();
   updatePlayer(); 
   draw();
-
+  updateWeapon();
+  
   arduboy.display(); 
 }
