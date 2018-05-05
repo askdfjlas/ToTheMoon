@@ -7,7 +7,7 @@
 
 // True coordinates
 #define TRUEX 59
-#define TRUEY 30
+#define TRUEY 36
 
 // Gravity
 #define GRAVITY 1
@@ -15,6 +15,9 @@
 #define JUMP 10
 
 #define SPEED 4
+
+#define HEALTHLVL1 12
+#define ATTACKLVL1 4
 
 #include "weapon.h"
 #include "input.h"
@@ -27,7 +30,10 @@ typedef struct player {
   byte airborn;
   int lvl; 
   int experience; 
+  int maxHealth;
+  int health;
   byte facing;
+  int attack;
   byte frameCount;
 
   Weapon myWeapon; 
@@ -35,6 +41,6 @@ typedef struct player {
 
 // No one loves me lol
  
-Player ahri = {0, PHEIGHT, 0, 1, 1, 0, RIGHT, 0, stick}; 
+Player ahri = {0, PHEIGHT, 0, 1, 1, 0, HEALTHLVL1, HEALTHLVL1, RIGHT, ATTACKLVL1, 0, stick}; 
 
 #endif

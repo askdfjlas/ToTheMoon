@@ -4,8 +4,8 @@
 #include "Player.h"
 
 typedef struct weapon{
-  const char* PROGMEM sprite; 
-  const char* PROGMEM spriteA; 
+  const unsigned char* PROGMEM sprite; 
+  const unsigned char* PROGMEM spriteA; 
 
   const byte PROGMEM Wi; 
   const byte PROGMEM Hi;
@@ -13,7 +13,7 @@ typedef struct weapon{
   const byte PROGMEM H1;
   const byte PROGMEM H2; 
 
-  const char* PROGMEM hitbox; 
+  const unsigned char* PROGMEM hitbox; 
 
   // hitbox rect
   const byte PROGMEM w;
@@ -22,9 +22,11 @@ typedef struct weapon{
   const byte PROGMEM lagFrames; 
   const byte PROGMEM activeStart;
   const byte PROGMEM activeEnd;
+
+  const float PROGMEM multiplier;
 }Weapon;
 
-Weapon stick = {stickS, stickA, 3, 10, TRUEY - 4, TRUEY + 7, stickH, 10, 16, 18, 15, 10}; 
+Weapon stick = {stickS, stickA, 3, 10, TRUEY - 4, TRUEY + 7, stickH, 10, 16, 15, 9, 7, 0.5}; 
 
 void updateWeapon();
 

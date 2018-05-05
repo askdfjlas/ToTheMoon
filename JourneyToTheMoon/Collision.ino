@@ -6,12 +6,12 @@ void verticalCollide(Rect object) {
 
   // Check if we land on a platform
   if(ahri.yVel < 0 && arduboy.collide(player, object)) {
-    ahri.yVel = 0; 
-
-    if((TRUEY - object.y + PHEIGHT) > 2) {
+    if((ahri.yVel) < -3) {
       // Reset aerial!
       ahri.frameCount /= 2;
     }
+    
+    ahri.yVel = 0; 
     
     ahri.y += TRUEY - object.y + PHEIGHT;
     
@@ -51,11 +51,11 @@ void horizontalCollide(byte dir) {
 
 void groundCollide() {
   if(ahri.y < PHEIGHT) {
-    ahri.yVel = 0;
-    if(PHEIGHT - ahri.y > 2) {
+    if((ahri.yVel) < -3) {
       // Reset aerial!
       ahri.frameCount /= 2;
     }
+    ahri.yVel = 0;
     ahri.y = PHEIGHT;  
     ahri.airborn = 0; 
   }
@@ -73,5 +73,12 @@ byte boundsChecking(int a, int b, int i) {
   else {
     return 2; 
   }
+}
+
+byte enemyHit(Rect swordRect, Rect enemyRect) {
+  if(arduboy.collide(swordRect, enemyRect)) {
+    return 1;
+  }
+  return 0;
 }
 

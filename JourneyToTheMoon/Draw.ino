@@ -7,13 +7,17 @@ void draw() {
   // Draw BG
   drawBG(); 
   // Draw Land
-  drawLand(); 
+  drawLand();   
+  // Draw enemies
+  drawEnemies();  
   // Draw player
-  drawPlayer(); 
+  drawPlayer();
   // Draw weapon
   drawWeapon();
   // Draw ground
   drawGround();
+  // Draw health bar, exp, etc.
+  drawPlayerInfo();
 }
 
 // Draw the land
@@ -93,5 +97,39 @@ void drawGround() {
       Sprites::drawOverwrite(-xOffset + i*TILEWIDTH, yOffset + j*TILEHEIGHT, T2, 0);
     }
   }
+}
+
+void drawEnemies() {
+  for(int i = 0; i < NUMENEMIES; i++) {
+    if(enemies[i].init != 1) continue; 
+
+    if(enemies[i].invincibleFrames != 0) {
+      arduboy.setCursor(TRUEX + enemies[i].x - ahri.x - 3, TRUEY + ahri.y - PHEIGHT - 10);
+      arduboy.print((int)(ahri.attack*(ahri.myWeapon).multiplier));
+    }
+    
+    arduboy.drawBitmap(TRUEX + enemies[i].x - ahri.x, enemies[i].y + TRUEY + ahri.y - PHEIGHT, enemies[i].spriteW, enemies[i].w, enemies[i].h, WHITE);
+    arduboy.drawBitmap(TRUEX + enemies[i].x - ahri.x, enemies[i].y + TRUEY + ahri.y - PHEIGHT, enemies[i].spriteB, enemies[i].w, enemies[i].h, BLACK);
+  }
+}
+
+void drawPlayerInfo() {
+  arduboy.fillRect(0, 0, 56, 10, BLACK); 
+  tinyfont.setCursor(0, 0); 
+  tinyfont.print("HP: ");
+  tinyfont.print(ahri.health);
+  tinyfont.print("/");
+  tinyfont.print(ahri.maxHealth);
+  tinyfont.setCursor(0, 5); 
+  tinyfont.print("XP: "); 
+  tinyfont.print(ahri.experience);
+  tinyfont.print("/"); 
+  tinyfont.print((int)(pow(ahri.lvl + 1, 2) - pow(ahri.lvl, 2))); 
+
+  arduboy.fillRect(90, 0, 38, 5, BLACK);
+  tinyfont.setCursor(91, 0); 
+  tinyfont.print("LV: "); 
+  tinyfont.print(ahri.lvl); 
+
 }
 

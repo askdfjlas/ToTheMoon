@@ -7,6 +7,7 @@
 #include "Input.h"
 #include "Collision.h"
 #include "weapon.h"
+#include "Enemy.h"
 
 // Main file
 
@@ -15,6 +16,8 @@
 
 Arduboy2 arduboy;
 Sprites Sprite; 
+
+Tinyfont tinyfont = Tinyfont(arduboy.sBuffer, Arduboy2::width(), Arduboy2::height());
 
 // make an ArdBitmap instance that will use the given the screen buffer and dimensions
 #define ARDBITMAP_SBUF arduboy.getBuffer()
@@ -25,6 +28,8 @@ void setup() {
   arduboy.begin();
   arduboy.setFrameRate(FPS); 
   arduboy.clear();
+
+  initEnemies();
 }
 
 void loop() {
@@ -34,8 +39,9 @@ void loop() {
   // Game loop
   getInputs();
   updatePlayer(); 
-  draw();
   updateWeapon();
+  updateEnemies(); 
+  draw();
   
   arduboy.display(); 
 }
