@@ -42,6 +42,10 @@ void loop() {
   updateWeapon();
   updateEnemies(); 
   draw();
+
+  arduboy.print(enemies[0].y); 
+  arduboy.print("\n");
+  arduboy.print(enemies[1].y); 
   
   arduboy.display(); 
 }

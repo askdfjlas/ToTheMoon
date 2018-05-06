@@ -101,15 +101,23 @@ void drawGround() {
 
 void drawEnemies() {
   for(int i = 0; i < NUMENEMIES; i++) {
-    if(enemies[i].init != 1) continue; 
-
-    if(enemies[i].invincibleFrames != 0) {
-      arduboy.setCursor(TRUEX + enemies[i].x - ahri.x - 3, TRUEY + ahri.y - PHEIGHT - 10);
-      arduboy.print((int)(ahri.attack*(ahri.myWeapon).multiplier));
-    }
+    if(enemies[i].init != 1) continue;
     
     arduboy.drawBitmap(TRUEX + enemies[i].x - ahri.x, enemies[i].y + TRUEY + ahri.y - PHEIGHT, enemies[i].spriteW, enemies[i].w, enemies[i].h, WHITE);
     arduboy.drawBitmap(TRUEX + enemies[i].x - ahri.x, enemies[i].y + TRUEY + ahri.y - PHEIGHT, enemies[i].spriteB, enemies[i].w, enemies[i].h, BLACK);
+
+    if(enemies[i].invincibleFrames != 0) {
+      int x, y; 
+      x = TRUEX + enemies[i].x - ahri.x - 8; 
+      y = TRUEY + ahri.y - PHEIGHT - 10;
+      tinyfont.setCursor(x + 9 - 3*log10((ahri.attack*(ahri.myWeapon).multiplier)), y + 7);
+      arduboy.drawBitmap(x, y, dmg, 20, 20, BLACK); 
+      tinyfont.print((int)(ahri.attack*(ahri.myWeapon).multiplier));
+    }
+
+    if(enemies[i].HP < enemies[i].MAXHP && enemies[i].invincibleFrames == 0) {
+      drawHPBar(TRUEX + enemies[i].x - ahri.x + enemies[i].w/2 - 6, enemies[i].y + TRUEY + ahri.y - PHEIGHT - 4, enemies[i].HP, enemies[i].MAXHP);
+    } 
   }
 }
 
@@ -131,5 +139,15 @@ void drawPlayerInfo() {
   tinyfont.print("LV: "); 
   tinyfont.print(ahri.lvl); 
 
+}
+
+void drawHPBar(int x, int y, int HP, int maxHP) { 
+  arduboy.fillRect(x, y, 12, 1, BLACK); 
+  arduboy.fillRect(x, y, 1, 3, BLACK); 
+  arduboy.fillRect(x, y + 2, 12, 1, BLACK); 
+  arduboy.fillRect(x + 12, y, 1, 3, BLACK); 
+  arduboy.fillRect(x + 1, y + 1, 10, 1, WHITE); 
+
+  arduboy.fillRect(x + 1, y + 1, ((float)HP/maxHP) * 10, 1, BLACK);
 }
 

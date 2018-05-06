@@ -67,8 +67,6 @@ void updateEnemies() {
     
     // hitstun!
     if(enemies[i].invincibleFrames != 0) {
-      arduboy.setCursor(TRUEX + enemies[i].x - ahri.x - 3, TRUEY + ahri.y - PHEIGHT - 10);
-      arduboy.print(ahri.attack*w.multiplier);
       continue; 
     }
     

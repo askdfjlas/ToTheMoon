@@ -1,7 +1,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#define NUMENEMIES 1
+#define NUMENEMIES 2
 #define IFRAMES 4
 
 typedef struct enemy {
@@ -28,8 +28,9 @@ void initEnemy(Enemy* E, int index);
 void updateEnemies();
 
 Enemy roamer = {E1W, E1B, 10, 10, moveRandomBounded, 1, 5, 2}; 
-const int yPos[NUMENEMIES] PROGMEM = {0}; 
-const int boundaries[NUMENEMIES*2] PROGMEM = {30, 120}; 
-Enemy enemies[NUMENEMIES] = {roamer}; 
+
+const int yPos[NUMENEMIES] PROGMEM = {0, 40}; 
+const int boundaries[NUMENEMIES*2] PROGMEM = {30, 120, 30 , 120}; 
+Enemy enemies[NUMENEMIES] = {roamer, roamer}; 
 
 #endif
