@@ -18,6 +18,8 @@ void draw() {
   drawGround();
   // Draw health bar, exp, etc.
   drawPlayerInfo();
+  // Draw exp gain
+  drawEXP();
 }
 
 // Draw the land
@@ -43,7 +45,14 @@ void drawBG() {
   int yOffset = ahri.y/3 - 40; 
 
   for(int i = -1; i < 4; i++) {
-    arduboy.drawBitmap(-xOffset + i*48, yOffset, BG, 48, 100, BLACK);
+    Sprites::drawOverwrite(-xOffset + i*48, yOffset, BG, 0);
+  }
+
+  int xOff = (int)(-ahri.x/1.4) % 64;
+  int yOff = ahri.y + TRUEY - 12;
+
+  for(int i = -1; i < 3; i++) {
+    arduboy.drawBitmap(xOff + i*64, yOff, Grass, 64, 15, BLACK); 
   }
 }
 
@@ -103,20 +112,20 @@ void drawEnemies() {
   for(int i = 0; i < NUMENEMIES; i++) {
     if(enemies[i].init != 1) continue;
     
-    arduboy.drawBitmap(TRUEX + enemies[i].x - ahri.x, enemies[i].y + TRUEY + ahri.y - PHEIGHT, enemies[i].spriteW, enemies[i].w, enemies[i].h, WHITE);
-    arduboy.drawBitmap(TRUEX + enemies[i].x - ahri.x, enemies[i].y + TRUEY + ahri.y - PHEIGHT, enemies[i].spriteB, enemies[i].w, enemies[i].h, BLACK);
+    arduboy.drawBitmap(TRUEX + enemies[i].x - ahri.x, -enemies[i].y + TRUEY + ahri.y - PHEIGHT, enemies[i].spriteW, enemies[i].w, enemies[i].h, WHITE);
+    arduboy.drawBitmap(TRUEX + enemies[i].x - ahri.x, -enemies[i].y + TRUEY + ahri.y - PHEIGHT, enemies[i].spriteB, enemies[i].w, enemies[i].h, BLACK);
 
     if(enemies[i].invincibleFrames != 0) {
       int x, y; 
       x = TRUEX + enemies[i].x - ahri.x - 8; 
-      y = TRUEY + ahri.y - PHEIGHT - 10;
+      y = -enemies[i].y + TRUEY + ahri.y - PHEIGHT - 10;
       tinyfont.setCursor(x + 9 - 3*log10((ahri.attack*(ahri.myWeapon).multiplier)), y + 7);
       arduboy.drawBitmap(x, y, dmg, 20, 20, BLACK); 
-      tinyfont.print((int)(ahri.attack*(ahri.myWeapon).multiplier));
+      tinyfont.print((int)(ahri.attack*(ahri.myWeapon).multiplier)); 
     }
 
     if(enemies[i].HP < enemies[i].MAXHP && enemies[i].invincibleFrames == 0) {
-      drawHPBar(TRUEX + enemies[i].x - ahri.x + enemies[i].w/2 - 6, enemies[i].y + TRUEY + ahri.y - PHEIGHT - 4, enemies[i].HP, enemies[i].MAXHP);
+      drawHPBar(TRUEX + enemies[i].x - ahri.x + enemies[i].w/2 - 6, -enemies[i].y + TRUEY + ahri.y - PHEIGHT - 4, enemies[i].HP, enemies[i].MAXHP);
     } 
   }
 }
@@ -149,5 +158,22 @@ void drawHPBar(int x, int y, int HP, int maxHP) {
   arduboy.fillRect(x + 1, y + 1, 10, 1, WHITE); 
 
   arduboy.fillRect(x + 1, y + 1, ((float)HP/maxHP) * 10, 1, BLACK);
+}
+
+void drawEXP() {
+  if(expBuffer == -1) {
+    return;
+  }
+  else {
+    arduboy.fillRect(TRUEX - 30, TRUEY - 10, 70, 8, BLACK);
+    tinyfont.setCursor(TRUEX - 28, TRUEY - 8);
+    tinyfont.print("Gained ");
+    tinyfont.print(expBuffer);
+    tinyfont.print(" EXP");
+    expFrameCount--; 
+  }
+  if(expFrameCount == 0) {
+    expBuffer = -1; 
+  }
 }
 

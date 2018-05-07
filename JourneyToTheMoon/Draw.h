@@ -7,6 +7,9 @@
 
 #include "Tinyfont.h"
 
+int expBuffer = -1;
+byte expFrameCount = 0; 
+
 // File to handle all drawing of objects
 
 void draw(); 
@@ -18,5 +21,6 @@ void drawGround();
 void drawEnemies(); 
 void drawPlayerInfo();
 void drawHPBar(int x, int y, int HP, int maxHP); 
+void drawEXP();
 
 #endif

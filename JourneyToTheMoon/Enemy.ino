@@ -71,7 +71,7 @@ void updateEnemies() {
     }
     
     (enemies[i]).move(enemies + i, pgm_read_word(boundaries + i*2), pgm_read_word(boundaries + i*2 + 1)); 
-    Rect enemyRect = {TRUEX + enemies[i].x - ahri.x, enemies[i].y + TRUEY + ahri.y - PHEIGHT, enemies[i].w, enemies[i].h};
+    Rect enemyRect = {TRUEX + enemies[i].x - ahri.x, -enemies[i].y + TRUEY + ahri.y - PHEIGHT, enemies[i].w, enemies[i].h};
         
     if(enemyHit(swordRect, enemyRect) && ahri.frameCount <= w.activeStart && ahri.frameCount >= w.activeEnd) {
       enemies[i].HP -= ahri.attack*w.multiplier; 
@@ -81,6 +81,9 @@ void updateEnemies() {
     if(enemies[i].HP <= 0) {
       enemies[i].init = 2;
       ahri.experience += enemies[i].EXP; 
+
+      expBuffer = 2;
+      expFrameCount = 22;
     }
   }
 }

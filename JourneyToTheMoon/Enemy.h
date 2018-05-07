@@ -9,7 +9,7 @@ typedef struct enemy {
   const unsigned char* PROGMEM spriteB;
   const byte w PROGMEM;
   const byte h PROGMEM;
-  const void PROGMEM (*move)(struct enemy* myEnemy, int leftBound, int rightBound); 
+  const void PROGMEM(*move)(struct enemy* myEnemy, int leftBound, int rightBound); 
   const byte S PROGMEM; // Speed
   const int MAXHP PROGMEM;
   const byte EXP PROGMEM;
@@ -29,8 +29,8 @@ void updateEnemies();
 
 Enemy roamer = {E1W, E1B, 10, 10, moveRandomBounded, 1, 5, 2}; 
 
-const int yPos[NUMENEMIES] PROGMEM = {0, 40}; 
-const int boundaries[NUMENEMIES*2] PROGMEM = {30, 120, 30 , 120}; 
+const int yPos[NUMENEMIES] PROGMEM = {0, 50}; 
+const int boundaries[NUMENEMIES*2] PROGMEM = {30, 120, 258, 312}; 
 Enemy enemies[NUMENEMIES] = {roamer, roamer}; 
 
 #endif
