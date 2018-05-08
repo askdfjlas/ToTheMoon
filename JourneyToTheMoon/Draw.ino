@@ -59,6 +59,10 @@ void drawBG() {
 void drawPlayer() {
   arduboy.drawBitmap(TRUEX, TRUEY, PB, PWIDTH, PHEIGHT, BLACK);
   arduboy.drawBitmap(TRUEX, TRUEY, PW, PWIDTH, PHEIGHT, WHITE);
+
+  if(ahri.health < ahri.maxHealth) {
+    drawHPBar(TRUEX - 1, TRUEY - 6, ahri.health, ahri.maxHealth);
+  }
 }
 
 void drawWeapon() {
@@ -111,10 +115,15 @@ void drawGround() {
 void drawEnemies() {
   for(int i = 0; i < NUMENEMIES; i++) {
     if(enemies[i].init != 1) continue;
-    
-    arduboy.drawBitmap(TRUEX + enemies[i].x - ahri.x, -enemies[i].y + TRUEY + ahri.y - PHEIGHT, enemies[i].spriteW, enemies[i].w, enemies[i].h, WHITE);
-    arduboy.drawBitmap(TRUEX + enemies[i].x - ahri.x, -enemies[i].y + TRUEY + ahri.y - PHEIGHT, enemies[i].spriteB, enemies[i].w, enemies[i].h, BLACK);
 
+    if(enemies[i].MAXHP == 5) {
+      arduboy.drawBitmap(TRUEX + enemies[i].x - ahri.x, -enemies[i].y + TRUEY + ahri.y - enemies[i].h, enemies[i].spriteW, enemies[i].w, enemies[i].h, WHITE);
+      arduboy.drawBitmap(TRUEX + enemies[i].x - ahri.x, -enemies[i].y + TRUEY + ahri.y - enemies[i].h, enemies[i].spriteB, enemies[i].w, enemies[i].h, BLACK);
+    }
+    else {
+      Sprites::drawOverwrite(TRUEX + enemies[i].x - ahri.x, -enemies[i].y + TRUEY + ahri.y - enemies[i].h, enemies[i].spriteW, 0);
+    }
+    
     if(enemies[i].invincibleFrames != 0) {
       int x, y; 
       x = TRUEX + enemies[i].x - ahri.x - 8; 
@@ -124,8 +133,12 @@ void drawEnemies() {
       tinyfont.print((int)(ahri.attack*(ahri.myWeapon).multiplier)); 
     }
 
+    if(!(bullets[i].type == 0 || enemies[i].init != 1 || abs(bullets[i].x - enemies[i].x) > bullets[i].range || bullets[i].bulletFrames < bullets[i].start)) {
+      drawBullets(); 
+    }
+
     if(enemies[i].HP < enemies[i].MAXHP && enemies[i].invincibleFrames == 0) {
-      drawHPBar(TRUEX + enemies[i].x - ahri.x + enemies[i].w/2 - 6, -enemies[i].y + TRUEY + ahri.y - PHEIGHT - 4, enemies[i].HP, enemies[i].MAXHP);
+      drawHPBar(TRUEX + enemies[i].x - ahri.x + enemies[i].w/2 - 6, -enemies[i].y + TRUEY + ahri.y - enemies[i].h - 4, enemies[i].HP, enemies[i].MAXHP);
     } 
   }
 }
@@ -164,16 +177,35 @@ void drawEXP() {
   if(expBuffer == -1) {
     return;
   }
+  else if(ahri.experience >= (pow(ahri.lvl + 1, 2) - pow(ahri.lvl, 2))) {
+    while(ahri.experience >= (pow(ahri.lvl + 1, 2) - pow(ahri.lvl, 2))) {
+      levelUp();
+      arduboy.fillRect(TRUEX - 18, TRUEY - 10, 50, 8, BLACK);
+      tinyfont.setCursor(TRUEX - 16, TRUEY - 8);
+      tinyfont.print("Level Up!");
+
+      arduboy.display();
+      delay(750);
+    }
+  }
   else {
-    arduboy.fillRect(TRUEX - 30, TRUEY - 10, 70, 8, BLACK);
-    tinyfont.setCursor(TRUEX - 28, TRUEY - 8);
+    arduboy.fillRect(TRUEX - 25, TRUEY - 10, 60 + 4*log10(expBuffer), 8, BLACK);
+    tinyfont.setCursor(TRUEX - 23, TRUEY - 8);
     tinyfont.print("Gained ");
     tinyfont.print(expBuffer);
-    tinyfont.print(" EXP");
+    tinyfont.print(" XP");
     expFrameCount--; 
   }
   if(expFrameCount == 0) {
     expBuffer = -1; 
+  }
+}
+
+void drawBullets() {
+  for(int i = 0; i < NUMENEMIES; i++) {
+    if(bullets[i].type > 0) {
+      Sprites::drawOverwrite(TRUEX + bullets[i].x - ahri.x, -bullets[i].y + TRUEY + ahri.y - 15, Bullet1, 0); 
+    }
   }
 }
 

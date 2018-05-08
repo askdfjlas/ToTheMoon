@@ -7,7 +7,7 @@
 
 // True coordinates
 #define TRUEX 59
-#define TRUEY 36
+#define TRUEY 40
 
 // Gravity
 #define GRAVITY 1
@@ -18,6 +18,8 @@
 
 #define HEALTHLVL1 12
 #define ATTACKLVL1 4
+#define HPGROWTH 5
+#define ATKGROWTH 2
 
 #include "weapon.h"
 #include "input.h"
@@ -38,6 +40,9 @@ typedef struct player {
 
   Weapon myWeapon; 
 }Player;
+
+void updatePlayer();
+void levelUp();
 
 // No one loves me lol
  

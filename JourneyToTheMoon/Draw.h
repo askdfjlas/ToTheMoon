@@ -6,6 +6,7 @@
 #define TILEHEIGHT 8
 
 #include "Tinyfont.h"
+#include "Enemy.h"
 
 int expBuffer = -1;
 byte expFrameCount = 0; 
@@ -22,5 +23,6 @@ void drawEnemies();
 void drawPlayerInfo();
 void drawHPBar(int x, int y, int HP, int maxHP); 
 void drawEXP();
+void drawBullets(); 
 
 #endif

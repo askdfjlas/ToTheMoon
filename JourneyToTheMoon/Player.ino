@@ -1,6 +1,12 @@
 #include "Player.h"
 
 void updatePlayer() {
+  if(ahri.health <= 0) {
+    gameState = 2;
+  }
+  if(ahri.x > 1400) {
+    gameState = 3;
+  }
   if(ahri.yVel > MINYVEL) {
     ahri.yVel -= GRAVITY; 
     ahri.airborn = 1;
@@ -31,4 +37,15 @@ void updatePlayer() {
     verticalCollide(Land); 
   }
 }
+
+void levelUp() {
+  ahri.maxHealth += HPGROWTH;
+  ahri.attack += ATKGROWTH;
+  ahri.health = ahri.maxHealth;
+
+  ahri.experience -= pow(ahri.lvl + 1, 2) - pow(ahri.lvl, 2); 
+  ahri.lvl++;
+}
+
+
 

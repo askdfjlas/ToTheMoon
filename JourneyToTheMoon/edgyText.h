@@ -8,7 +8,7 @@
  */
 
 // Maximum Length of a single string of dialogue
-#define MAXDIALOGUE 75
+#define MAXDIALOGUE 100
 
 // Confusing macro, passing this for fps keeps the framerate the same in the edgyText function
 #define DEFAULTFPS 0
