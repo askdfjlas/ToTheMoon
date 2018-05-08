@@ -30,7 +30,7 @@ const char death[5][MAXDIALOGUE] PROGMEM = {"Wow, you suck. \0",
 const char complete[4][MAXDIALOGUE] PROGMEM = {"Wowee, you beat my game. \0",
 "I can't say I'm surprised. \0",
 "Well um, if you're        feeling sadistic... \0",
-"Then continuing killing        stuff! \0"}; 
+"Then continue killing        stuff! \0"}; 
 
 #define FPS 30
 #define TEXTSPEED 40
